@@ -9,8 +9,8 @@ PWD := $(shell pwd)
 
 GIT_HOOKS := .git/hooks/applied
 
-all: $(GIT_HOOKS) client
-	$(MAKE) -C $(KDIR) M=$(PWD) modules
+all: $(GIT_HOOKS) client 
+	$(MAKE) -C $(KDIR) -I /usr/include/x86_64-linux-gnu M=$(PWD) modules -lgmp
 
 $(GIT_HOOKS):
 	@scripts/install-git-hooks
@@ -37,5 +37,4 @@ check: all
 	$(MAKE) load
 	sudo ./client > out
 	$(MAKE) unload
-	@diff -u out scripts/expected.txt && $(call pass)
 	@scripts/verify.py
